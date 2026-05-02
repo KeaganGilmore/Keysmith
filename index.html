@@ -11,7 +11,6 @@
     <meta name="color-scheme" content="dark light" />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='6' fill='%237ad9d4'/%3E%3C/svg%3E" />
     <script>
-      // Set theme before paint to avoid a flash.
       (() => {
         try {
           const stored = localStorage.getItem('keysmith.theme');
@@ -24,6 +23,36 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <!-- Reusable icon symbols -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <defs>
+        <symbol id="i-copy" viewBox="0 0 24 24">
+          <rect x="8" y="8" width="11" height="12" rx="2"
+                fill="none" stroke="currentColor" stroke-width="1.6" />
+          <path d="M5 16V6a2 2 0 0 1 2-2h9"
+                fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+        </symbol>
+        <symbol id="i-check" viewBox="0 0 24 24">
+          <path d="M5 12.5l4.5 4.5L19 7"
+                fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" />
+        </symbol>
+        <symbol id="i-sun" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.6" />
+          <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <path d="M12 3v2" /><path d="M12 19v2" />
+            <path d="M3 12h2" /><path d="M19 12h2" />
+            <path d="M5.6 5.6l1.4 1.4" /><path d="M17 17l1.4 1.4" />
+            <path d="M5.6 18.4l1.4-1.4" /><path d="M17 7l1.4-1.4" />
+          </g>
+        </symbol>
+        <symbol id="i-moon" viewBox="0 0 24 24">
+          <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"
+                fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+        </symbol>
+      </defs>
+    </svg>
+
     <div class="app">
       <header class="app-header">
         <a class="wordmark" href="./" aria-label="Keysmith home">
@@ -43,59 +72,433 @@
         </label>
 
         <button class="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle theme (t)">
-          <svg class="icon icon-sun" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-            <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.6" />
-            <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
-              <path d="M12 3v2" /><path d="M12 19v2" />
-              <path d="M3 12h2" /><path d="M19 12h2" />
-              <path d="M5.6 5.6l1.4 1.4" /><path d="M17 17l1.4 1.4" />
-              <path d="M5.6 18.4l1.4-1.4" /><path d="M17 7l1.4-1.4" />
-            </g>
-          </svg>
-          <svg class="icon icon-moon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-            <path
-              d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.6"
-              stroke-linejoin="round"
-            />
-          </svg>
+          <svg class="icon icon-sun" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><use href="#i-sun"/></svg>
+          <svg class="icon icon-moon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><use href="#i-moon"/></svg>
         </button>
       </header>
 
       <main>
-        <section class="card-grid" aria-label="Generators">
-          <article
-            class="card"
-            data-card="django-secret"
-            tabindex="0"
-            role="button"
-            aria-label="Django SECRET_KEY — click to regenerate and copy"
-          >
-            <div class="card-head">
-              <div class="card-titles">
-                <h2 class="card-title">Django <span class="mono-accent">SECRET_KEY</span></h2>
-                <p class="card-meta">
-                  50 chars · matches <code>get_random_secret_key()</code>
-                </p>
+        <!-- ============ Frameworks ============ -->
+        <section class="section">
+          <h2 class="section-head">Frameworks</h2>
+          <div class="card-grid">
+            <article class="card" data-card="django-secret" tabindex="0" role="button"
+                     aria-label="Django SECRET_KEY — click to regenerate and copy">
+              <div class="card-head">
+                <div class="card-titles">
+                  <h3 class="card-title">Django <span class="mono-accent">SECRET_KEY</span></h3>
+                  <p class="card-meta">50 chars · matches <code>get_random_secret_key()</code></p>
+                </div>
+                <span class="card-action" aria-hidden="true">
+                  <svg class="icon icon-copy" viewBox="0 0 24 24" width="16" height="16"><use href="#i-copy"/></svg>
+                  <svg class="icon icon-check" viewBox="0 0 24 24" width="16" height="16"><use href="#i-check"/></svg>
+                </span>
               </div>
-              <span class="card-action" aria-hidden="true">
-                <svg class="icon icon-copy" viewBox="0 0 24 24" width="16" height="16">
-                  <rect x="8" y="8" width="11" height="12" rx="2"
-                        fill="none" stroke="currentColor" stroke-width="1.6" />
-                  <path d="M5 16V6a2 2 0 0 1 2-2h9"
-                        fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-                </svg>
-                <svg class="icon icon-check" viewBox="0 0 24 24" width="16" height="16">
-                  <path d="M5 12.5l4.5 4.5L19 7"
-                        fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-              </span>
-            </div>
-            <output class="card-value" aria-live="polite"></output>
-          </article>
+              <output class="card-value" aria-live="polite"></output>
+            </article>
+
+            <article class="card" data-card="django-fernet" tabindex="0" role="button"
+                     aria-label="Django Fernet key — click to regenerate and copy">
+              <div class="card-head">
+                <div class="card-titles">
+                  <h3 class="card-title">Django Fernet key</h3>
+                  <p class="card-meta">32 random bytes · urlsafe-base64 · 44 chars · for django field encryption</p>
+                </div>
+                <span class="card-action" aria-hidden="true">
+                  <svg class="icon icon-copy" viewBox="0 0 24 24" width="16" height="16"><use href="#i-copy"/></svg>
+                  <svg class="icon icon-check" viewBox="0 0 24 24" width="16" height="16"><use href="#i-check"/></svg>
+                </span>
+              </div>
+              <output class="card-value" aria-live="polite"></output>
+            </article>
+
+            <article class="card" data-card="flask-secret" tabindex="0" role="button"
+                     aria-label="Flask SECRET_KEY — click to regenerate and copy">
+              <div class="card-head">
+                <div class="card-titles">
+                  <h3 class="card-title">Flask <span class="mono-accent">SECRET_KEY</span></h3>
+                  <p class="card-meta">32 bytes · hex · matches <code>secrets.token_hex(32)</code></p>
+                </div>
+                <span class="card-action" aria-hidden="true">
+                  <svg class="icon icon-copy" viewBox="0 0 24 24" width="16" height="16"><use href="#i-copy"/></svg>
+                  <svg class="icon icon-check" viewBox="0 0 24 24" width="16" height="16"><use href="#i-check"/></svg>
+                </span>
+              </div>
+              <output class="card-value" aria-live="polite"></output>
+            </article>
+
+            <article class="card" data-card="rails-secret" tabindex="0" role="button"
+                     aria-label="Rails secret_key_base — click to regenerate and copy">
+              <div class="card-head">
+                <div class="card-titles">
+                  <h3 class="card-title">Rails <span class="mono-accent">secret_key_base</span></h3>
+                  <p class="card-meta">64 bytes · hex · 128 chars · matches <code>rails secret</code></p>
+                </div>
+                <span class="card-action" aria-hidden="true">
+                  <svg class="icon icon-copy" viewBox="0 0 24 24" width="16" height="16"><use href="#i-copy"/></svg>
+                  <svg class="icon icon-check" viewBox="0 0 24 24" width="16" height="16"><use href="#i-check"/></svg>
+                </span>
+              </div>
+              <output class="card-value" aria-live="polite"></output>
+            </article>
+
+            <article class="card" data-card="laravel-app-key" tabindex="0" role="button"
+                     aria-label="Laravel APP_KEY — click to regenerate and copy">
+              <div class="card-head">
+                <div class="card-titles">
+                  <h3 class="card-title">Laravel <span class="mono-accent">APP_KEY</span></h3>
+                  <p class="card-meta">32 bytes base64 · prefixed <code>base64:</code> · for AES-256-CBC</p>
+                </div>
+                <span class="card-action" aria-hidden="true">
+                  <svg class="icon icon-copy" viewBox="0 0 24 24" width="16" height="16"><use href="#i-copy"/></svg>
+                  <svg class="icon icon-check" viewBox="0 0 24 24" width="16" height="16"><use href="#i-check"/></svg>
+                </span>
+              </div>
+              <output class="card-value" aria-live="polite"></output>
+            </article>
+
+            <article class="card" data-card="nextauth-secret" tabindex="0" role="button"
+                     aria-label="NextAuth / Auth.js secret — click to regenerate and copy">
+              <div class="card-head">
+                <div class="card-titles">
+                  <h3 class="card-title">NextAuth / Auth.js secret</h3>
+                  <p class="card-meta">32 bytes base64 · matches <code>openssl rand -base64 32</code></p>
+                </div>
+                <span class="card-action" aria-hidden="true">
+                  <svg class="icon icon-copy" viewBox="0 0 24 24" width="16" height="16"><use href="#i-copy"/></svg>
+                  <svg class="icon icon-check" viewBox="0 0 24 24" width="16" height="16"><use href="#i-check"/></svg>
+                </span>
+              </div>
+              <output class="card-value" aria-live="polite"></output>
+            </article>
+          </div>
+        </section>
+
+        <!-- ============ Tokens & secrets ============ -->
+        <section class="section">
+          <h2 class="section-head">Tokens &amp; secrets</h2>
+          <div class="card-grid">
+            <article class="card card--config" data-card="jwt" tabindex="0" role="button"
+                     aria-label="JWT secret">
+              <div class="card-head">
+                <div class="card-titles">
+                  <h3 class="card-title">JWT secret</h3>
+                  <p class="card-meta">HMAC keys for HS256 / HS384 / HS512</p>
+                </div>
+                <span class="card-action" aria-hidden="true">
+                  <svg class="icon icon-copy" viewBox="0 0 24 24" width="16" height="16"><use href="#i-copy"/></svg>
+                  <svg class="icon icon-check" viewBox="0 0 24 24" width="16" height="16"><use href="#i-check"/></svg>
+                </span>
+              </div>
+              <output class="card-value" aria-live="polite"></output>
+              <div class="card-config">
+                <div class="config-row">
+                  <span class="config-label">Bits</span>
+                  <div class="config-segments" data-control="bits" data-type="segmented" role="radiogroup" aria-label="Bit length">
+                    <button type="button" class="config-segment" data-value="256" aria-pressed="true">256</button>
+                    <button type="button" class="config-segment" data-value="384" aria-pressed="false">384</button>
+                    <button type="button" class="config-segment" data-value="512" aria-pressed="false">512</button>
+                  </div>
+                </div>
+                <div class="config-row">
+                  <span class="config-label">Output</span>
+                  <div class="config-segments" data-control="encoding" data-type="segmented" role="radiogroup" aria-label="Encoding">
+                    <button type="button" class="config-segment" data-value="base64" aria-pressed="true">b64</button>
+                    <button type="button" class="config-segment" data-value="base64url" aria-pressed="false">b64u</button>
+                    <button type="button" class="config-segment" data-value="hex" aria-pressed="false">hex</button>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="card card--config" data-card="encryption" tabindex="0" role="button"
+                     aria-label="Encryption key">
+              <div class="card-head">
+                <div class="card-titles">
+                  <h3 class="card-title">Encryption key</h3>
+                  <p class="card-meta">AES-128 / AES-192 / AES-256</p>
+                </div>
+                <span class="card-action" aria-hidden="true">
+                  <svg class="icon icon-copy" viewBox="0 0 24 24" width="16" height="16"><use href="#i-copy"/></svg>
+                  <svg class="icon icon-check" viewBox="0 0 24 24" width="16" height="16"><use href="#i-check"/></svg>
+                </span>
+              </div>
+              <output class="card-value" aria-live="polite"></output>
+              <div class="card-config">
+                <div class="config-row">
+                  <span class="config-label">Bits</span>
+                  <div class="config-segments" data-control="bits" data-type="segmented" role="radiogroup" aria-label="Bit length">
+                    <button type="button" class="config-segment" data-value="128" aria-pressed="false">128</button>
+                    <button type="button" class="config-segment" data-value="192" aria-pressed="false">192</button>
+                    <button type="button" class="config-segment" data-value="256" aria-pressed="true">256</button>
+                  </div>
+                </div>
+                <div class="config-row">
+                  <span class="config-label">Output</span>
+                  <div class="config-segments" data-control="encoding" data-type="segmented" role="radiogroup" aria-label="Encoding">
+                    <button type="button" class="config-segment" data-value="base64" aria-pressed="true">b64</button>
+                    <button type="button" class="config-segment" data-value="base64url" aria-pressed="false">b64u</button>
+                    <button type="button" class="config-segment" data-value="hex" aria-pressed="false">hex</button>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="card card--config" data-card="api-key" tabindex="0" role="button"
+                     aria-label="API key">
+              <div class="card-head">
+                <div class="card-titles">
+                  <h3 class="card-title">API key</h3>
+                  <p class="card-meta">Stripe / OpenAI-style: prefix + random</p>
+                </div>
+                <span class="card-action" aria-hidden="true">
+                  <svg class="icon icon-copy" viewBox="0 0 24 24" width="16" height="16"><use href="#i-copy"/></svg>
+                  <svg class="icon icon-check" viewBox="0 0 24 24" width="16" height="16"><use href="#i-check"/></svg>
+                </span>
+              </div>
+              <output class="card-value" aria-live="polite"></output>
+              <div class="card-config">
+                <div class="config-row">
+                  <span class="config-label">Length</span>
+                  <input type="range" class="config-range" data-control="length" min="16" max="64" value="32" />
+                  <span class="config-value">32</span>
+                </div>
+                <div class="config-row">
+                  <span class="config-label">Prefix</span>
+                  <input type="text" class="config-text" data-control="prefix" value="sk_live_" maxlength="32" spellcheck="false" autocomplete="off" />
+                </div>
+                <div class="config-row">
+                  <span class="config-label">Charset</span>
+                  <div class="config-segments" data-control="charset" data-type="segmented" role="radiogroup" aria-label="Charset">
+                    <button type="button" class="config-segment" data-value="alphanumeric" aria-pressed="true">a-Z0-9</button>
+                    <button type="button" class="config-segment" data-value="alpha" aria-pressed="false">a-Z</button>
+                    <button type="button" class="config-segment" data-value="hex" aria-pressed="false">hex</button>
+                    <button type="button" class="config-segment" data-value="numeric" aria-pressed="false">0-9</button>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="card card--config" data-card="webhook-secret" tabindex="0" role="button"
+                     aria-label="Webhook signing secret">
+              <div class="card-head">
+                <div class="card-titles">
+                  <h3 class="card-title">Webhook secret</h3>
+                  <p class="card-meta">Stripe-style <code>whsec_</code> signing key</p>
+                </div>
+                <span class="card-action" aria-hidden="true">
+                  <svg class="icon icon-copy" viewBox="0 0 24 24" width="16" height="16"><use href="#i-copy"/></svg>
+                  <svg class="icon icon-check" viewBox="0 0 24 24" width="16" height="16"><use href="#i-check"/></svg>
+                </span>
+              </div>
+              <output class="card-value" aria-live="polite"></output>
+              <div class="card-config">
+                <div class="config-row">
+                  <span class="config-label">Length</span>
+                  <input type="range" class="config-range" data-control="length" min="16" max="64" value="32" />
+                  <span class="config-value">32</span>
+                </div>
+                <div class="config-row">
+                  <span class="config-label">Prefix</span>
+                  <input type="text" class="config-text" data-control="prefix" value="whsec_" maxlength="32" spellcheck="false" autocomplete="off" />
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- ============ Identifiers ============ -->
+        <section class="section">
+          <h2 class="section-head">Identifiers</h2>
+          <div class="card-grid">
+            <article class="card" data-card="uuid-v4" tabindex="0" role="button"
+                     aria-label="UUID v4">
+              <div class="card-head">
+                <div class="card-titles">
+                  <h3 class="card-title">UUID v4</h3>
+                  <p class="card-meta">122 bits of randomness · <code>crypto.randomUUID()</code></p>
+                </div>
+                <span class="card-action" aria-hidden="true">
+                  <svg class="icon icon-copy" viewBox="0 0 24 24" width="16" height="16"><use href="#i-copy"/></svg>
+                  <svg class="icon icon-check" viewBox="0 0 24 24" width="16" height="16"><use href="#i-check"/></svg>
+                </span>
+              </div>
+              <output class="card-value" aria-live="polite"></output>
+            </article>
+
+            <article class="card" data-card="uuid-v7" tabindex="0" role="button"
+                     aria-label="UUID v7">
+              <div class="card-head">
+                <div class="card-titles">
+                  <h3 class="card-title">UUID v7</h3>
+                  <p class="card-meta">Time-sortable · 48-bit unix-ms prefix · RFC 9562</p>
+                </div>
+                <span class="card-action" aria-hidden="true">
+                  <svg class="icon icon-copy" viewBox="0 0 24 24" width="16" height="16"><use href="#i-copy"/></svg>
+                  <svg class="icon icon-check" viewBox="0 0 24 24" width="16" height="16"><use href="#i-check"/></svg>
+                </span>
+              </div>
+              <output class="card-value" aria-live="polite"></output>
+            </article>
+
+            <article class="card card--config" data-card="nano-id" tabindex="0" role="button"
+                     aria-label="Nano ID">
+              <div class="card-head">
+                <div class="card-titles">
+                  <h3 class="card-title">Nano ID</h3>
+                  <p class="card-meta">Compact url-safe ID · 64-char alphabet</p>
+                </div>
+                <span class="card-action" aria-hidden="true">
+                  <svg class="icon icon-copy" viewBox="0 0 24 24" width="16" height="16"><use href="#i-copy"/></svg>
+                  <svg class="icon icon-check" viewBox="0 0 24 24" width="16" height="16"><use href="#i-check"/></svg>
+                </span>
+              </div>
+              <output class="card-value" aria-live="polite"></output>
+              <div class="card-config">
+                <div class="config-row">
+                  <span class="config-label">Length</span>
+                  <input type="range" class="config-range" data-control="length" min="6" max="36" value="21" />
+                  <span class="config-value">21</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="card" data-card="ulid" tabindex="0" role="button"
+                     aria-label="ULID">
+              <div class="card-head">
+                <div class="card-titles">
+                  <h3 class="card-title">ULID</h3>
+                  <p class="card-meta">26 chars · Crockford base32 · time-sortable</p>
+                </div>
+                <span class="card-action" aria-hidden="true">
+                  <svg class="icon icon-copy" viewBox="0 0 24 24" width="16" height="16"><use href="#i-copy"/></svg>
+                  <svg class="icon icon-check" viewBox="0 0 24 24" width="16" height="16"><use href="#i-check"/></svg>
+                </span>
+              </div>
+              <output class="card-value" aria-live="polite"></output>
+            </article>
+
+            <article class="card" data-card="mongo-objectid" tabindex="0" role="button"
+                     aria-label="MongoDB ObjectId">
+              <div class="card-head">
+                <div class="card-titles">
+                  <h3 class="card-title">MongoDB ObjectId</h3>
+                  <p class="card-meta">12 bytes hex · 4-byte ts + 8 random</p>
+                </div>
+                <span class="card-action" aria-hidden="true">
+                  <svg class="icon icon-copy" viewBox="0 0 24 24" width="16" height="16"><use href="#i-copy"/></svg>
+                  <svg class="icon icon-check" viewBox="0 0 24 24" width="16" height="16"><use href="#i-check"/></svg>
+                </span>
+              </div>
+              <output class="card-value" aria-live="polite"></output>
+            </article>
+          </div>
+        </section>
+
+        <!-- ============ Passwords ============ -->
+        <section class="section">
+          <h2 class="section-head">Passwords</h2>
+          <div class="card-grid">
+            <article class="card card--config" data-card="password" tabindex="0" role="button"
+                     aria-label="Random password">
+              <div class="card-head">
+                <div class="card-titles">
+                  <h3 class="card-title">Password</h3>
+                  <p class="card-meta">High-entropy random password</p>
+                </div>
+                <span class="card-action" aria-hidden="true">
+                  <svg class="icon icon-copy" viewBox="0 0 24 24" width="16" height="16"><use href="#i-copy"/></svg>
+                  <svg class="icon icon-check" viewBox="0 0 24 24" width="16" height="16"><use href="#i-check"/></svg>
+                </span>
+              </div>
+              <output class="card-value" aria-live="polite"></output>
+              <div class="card-config">
+                <div class="config-row">
+                  <span class="config-label">Length</span>
+                  <input type="range" class="config-range" data-control="length" min="8" max="64" value="20" />
+                  <span class="config-value">20</span>
+                </div>
+                <div class="config-row config-checks">
+                  <label class="config-check"><input type="checkbox" data-control="lower" checked /> <code>a-z</code></label>
+                  <label class="config-check"><input type="checkbox" data-control="upper" checked /> <code>A-Z</code></label>
+                  <label class="config-check"><input type="checkbox" data-control="digits" checked /> <code>0-9</code></label>
+                  <label class="config-check"><input type="checkbox" data-control="symbols" checked /> <code>!@#</code></label>
+                </div>
+                <div class="config-row">
+                  <label class="config-check"><input type="checkbox" data-control="excludeAmbiguous" /> Exclude ambiguous (<code>0Oo1lI|`</code>)</label>
+                </div>
+              </div>
+            </article>
+
+            <article class="card card--config" data-card="pin" tabindex="0" role="button"
+                     aria-label="Numeric PIN">
+              <div class="card-head">
+                <div class="card-titles">
+                  <h3 class="card-title">PIN</h3>
+                  <p class="card-meta">Numeric only · for OTPs and lock codes</p>
+                </div>
+                <span class="card-action" aria-hidden="true">
+                  <svg class="icon icon-copy" viewBox="0 0 24 24" width="16" height="16"><use href="#i-copy"/></svg>
+                  <svg class="icon icon-check" viewBox="0 0 24 24" width="16" height="16"><use href="#i-check"/></svg>
+                </span>
+              </div>
+              <output class="card-value" aria-live="polite"></output>
+              <div class="card-config">
+                <div class="config-row">
+                  <span class="config-label">Digits</span>
+                  <input type="range" class="config-range" data-control="length" min="4" max="10" value="6" />
+                  <span class="config-value">6</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- ============ Custom ============ -->
+        <section class="section">
+          <h2 class="section-head">Custom</h2>
+          <div class="card-grid">
+            <article class="card card--config card--wide" data-card="custom" tabindex="0" role="button"
+                     aria-label="Custom random">
+              <div class="card-head">
+                <div class="card-titles">
+                  <h3 class="card-title">Custom random</h3>
+                  <p class="card-meta">Build your own — length, encoding, prefix, custom charset</p>
+                </div>
+                <span class="card-action" aria-hidden="true">
+                  <svg class="icon icon-copy" viewBox="0 0 24 24" width="16" height="16"><use href="#i-copy"/></svg>
+                  <svg class="icon icon-check" viewBox="0 0 24 24" width="16" height="16"><use href="#i-check"/></svg>
+                </span>
+              </div>
+              <output class="card-value" aria-live="polite"></output>
+              <div class="card-config">
+                <div class="config-row">
+                  <span class="config-label">Length</span>
+                  <input type="range" class="config-range" data-control="length" min="4" max="128" value="32" />
+                  <span class="config-value">32</span>
+                </div>
+                <div class="config-row">
+                  <span class="config-label">Encoding</span>
+                  <div class="config-segments" data-control="encoding" data-type="segmented" role="radiogroup" aria-label="Encoding">
+                    <button type="button" class="config-segment" data-value="alphanumeric" aria-pressed="true">a-Z0-9</button>
+                    <button type="button" class="config-segment" data-value="hex" aria-pressed="false">hex</button>
+                    <button type="button" class="config-segment" data-value="base64" aria-pressed="false">b64</button>
+                    <button type="button" class="config-segment" data-value="base64url" aria-pressed="false">b64u</button>
+                    <button type="button" class="config-segment" data-value="alpha" aria-pressed="false">a-Z</button>
+                    <button type="button" class="config-segment" data-value="numeric" aria-pressed="false">0-9</button>
+                  </div>
+                </div>
+                <div class="config-row">
+                  <span class="config-label">Prefix</span>
+                  <input type="text" class="config-text" data-control="prefix" value="" placeholder="e.g. sk_live_" maxlength="32" spellcheck="false" autocomplete="off" />
+                </div>
+                <div class="config-row">
+                  <span class="config-label">Charset</span>
+                  <input type="text" class="config-text" data-control="charset" value="" placeholder="optional — overrides encoding (e.g. ABCDEF0123)" maxlength="256" spellcheck="false" autocomplete="off" />
+                </div>
+              </div>
+            </article>
+          </div>
         </section>
       </main>
 

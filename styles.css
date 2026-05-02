@@ -221,12 +221,41 @@ button {
   display: none;
 }
 
-/* ---------- Card grid ---------- */
+/* ---------- Sections & grid ---------- */
+main {
+  padding: var(--sp-4) 0 var(--sp-12);
+}
+.section {
+  margin-bottom: var(--sp-8);
+}
+.section.hidden {
+  display: none;
+}
+.section-head {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-subtle);
+  margin: 0 0 var(--sp-3);
+  padding-left: 2px;
+}
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: var(--sp-4);
-  padding: var(--sp-4) 0 var(--sp-12);
+  align-items: start;
+}
+.card.hidden {
+  display: none;
+}
+.card.card--wide {
+  grid-column: span 2;
+}
+@media (max-width: 760px) {
+  .card.card--wide {
+    grid-column: span 1;
+  }
 }
 
 /* ---------- Card ---------- */
@@ -380,6 +409,180 @@ button {
   100% {
     color: var(--text);
   }
+}
+
+/* ---------- Configurable card controls ---------- */
+.card-config {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding-top: var(--sp-3);
+  margin-top: var(--sp-1);
+  border-top: 1px dashed var(--border);
+  cursor: default;
+}
+.config-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  font-size: var(--fs-xs);
+  flex-wrap: wrap;
+}
+.config-label {
+  flex: 0 0 auto;
+  min-width: 56px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.7rem;
+}
+.config-value {
+  font-family: var(--font-mono);
+  color: var(--text);
+  font-feature-settings: 'tnum';
+  min-width: 28px;
+  text-align: right;
+}
+
+/* Range slider */
+.config-range {
+  flex: 1 1 auto;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  margin: 0;
+}
+.config-range::-webkit-slider-runnable-track {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+}
+.config-range::-moz-range-track {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+}
+.config-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: -5px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid var(--bg-elev);
+  box-shadow: 0 0 0 1px var(--accent-quiet);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.config-range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid var(--bg-elev);
+  box-shadow: 0 0 0 1px var(--accent-quiet);
+}
+.config-range:hover::-webkit-slider-thumb {
+  transform: scale(1.15);
+}
+.config-range:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px var(--accent-faint);
+}
+
+/* Segmented (radiogroup) */
+.config-segments {
+  display: inline-flex;
+  background: var(--inset);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 2px;
+  gap: 2px;
+  flex-wrap: wrap;
+}
+.config-segment {
+  padding: 3px 8px;
+  font-size: 0.7rem;
+  background: transparent;
+  border: 0;
+  border-radius: 4px;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+  transition: color var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out);
+}
+.config-segment:hover {
+  color: var(--text);
+}
+.config-segment[aria-pressed='true'] {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 0 0 1px var(--border-strong);
+}
+.config-segment:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--accent-faint);
+}
+
+/* Text input */
+.config-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 4px 8px;
+  background: var(--inset);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xs);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+.config-text:hover {
+  border-color: var(--border-strong);
+}
+.config-text:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-faint);
+}
+.config-text::placeholder {
+  color: var(--text-subtle);
+}
+
+/* Checkbox */
+.config-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-4);
+}
+.config-check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.config-check:hover {
+  color: var(--text);
+}
+.config-check input[type='checkbox'] {
+  accent-color: var(--accent);
+  width: 14px;
+  height: 14px;
+  margin: 0;
+}
+.config-check code {
+  font-family: var(--font-mono);
+  color: var(--text);
 }
 
 /* ---------- Footer ---------- */
