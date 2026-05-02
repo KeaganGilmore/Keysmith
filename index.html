@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Keysmith — generate keys, secrets, and identifiers</title>
+    <meta
+      name="description"
+      content="Generate Django SECRET_KEYs, Fernet keys, JWT secrets, UUIDs, API keys, and passwords. All client-side."
+    />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='6' fill='%237ad9d4'/%3E%3C/svg%3E" />
+    <script>
+      // Set theme before paint to avoid a flash.
+      (() => {
+        try {
+          const stored = localStorage.getItem('keysmith.theme');
+          if (stored === 'light' || stored === 'dark') {
+            document.documentElement.dataset.theme = stored;
+          }
+        } catch {}
+      })();
+    </script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="app-header">
+        <a class="wordmark" href="./" aria-label="Keysmith home">
+          <span class="wordmark-dot" aria-hidden="true"></span>
+          <span class="wordmark-text">Keysmith</span>
+        </a>
+
+        <label class="filter-wrap">
+          <span class="visually-hidden">Filter generators</span>
+          <input
+            class="filter"
+            type="search"
+            placeholder="Filter…   /"
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </label>
+
+        <button class="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle theme (t)">
+          <svg class="icon icon-sun" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+            <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.6" />
+            <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+              <path d="M12 3v2" /><path d="M12 19v2" />
+              <path d="M3 12h2" /><path d="M19 12h2" />
+              <path d="M5.6 5.6l1.4 1.4" /><path d="M17 17l1.4 1.4" />
+              <path d="M5.6 18.4l1.4-1.4" /><path d="M17 7l1.4-1.4" />
+            </g>
+          </svg>
+          <svg class="icon icon-moon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+            <path
+              d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+      </header>
+
+      <main>
+        <section class="card-grid" aria-label="Generators">
+          <article
+            class="card"
+            data-card="django-secret"
+            tabindex="0"
+            role="button"
+            aria-label="Django SECRET_KEY — click to regenerate and copy"
+          >
+            <div class="card-head">
+              <div class="card-titles">
+                <h2 class="card-title">Django <span class="mono-accent">SECRET_KEY</span></h2>
+                <p class="card-meta">
+                  50 chars · matches <code>get_random_secret_key()</code>
+                </p>
+              </div>
+              <span class="card-action" aria-hidden="true">
+                <svg class="icon icon-copy" viewBox="0 0 24 24" width="16" height="16">
+                  <rect x="8" y="8" width="11" height="12" rx="2"
+                        fill="none" stroke="currentColor" stroke-width="1.6" />
+                  <path d="M5 16V6a2 2 0 0 1 2-2h9"
+                        fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                </svg>
+                <svg class="icon icon-check" viewBox="0 0 24 24" width="16" height="16">
+                  <path d="M5 12.5l4.5 4.5L19 7"
+                        fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+            </div>
+            <output class="card-value" aria-live="polite"></output>
+          </article>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <p>Generated locally. Nothing ever leaves your browser.</p>
+        <p class="shortcuts">
+          <kbd>r</kbd> regen · <kbd>c</kbd> copy · <kbd>/</kbd> filter · <kbd>t</kbd> theme
+        </p>
+        <p class="footer-credit">
+          Powered by <a href="https://coreaxisdev.com" target="_blank" rel="noopener noreferrer">Core Axis Development</a>
+        </p>
+      </footer>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
