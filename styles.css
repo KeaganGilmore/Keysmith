@@ -585,6 +585,109 @@ main {
   color: var(--text);
 }
 
+/* Stacked row — label on its own line, wide control below */
+.config-row--stack {
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--sp-2);
+}
+.config-actions {
+  justify-content: flex-end;
+}
+
+/* Textarea (transform inputs) */
+.config-area {
+  width: 100%;
+  min-height: 2.6em;
+  resize: vertical;
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--inset);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  line-height: 1.5;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+.config-area:hover {
+  border-color: var(--border-strong);
+}
+.config-area:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-faint);
+}
+.config-area::placeholder {
+  color: var(--text-subtle);
+}
+
+/* Select dropdown */
+.config-select {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 4px 8px;
+  background: var(--inset);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xs);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+.config-select:hover {
+  border-color: var(--border-strong);
+}
+.config-select:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-faint);
+}
+
+/* Run / Hash action button */
+.config-run {
+  flex: 0 0 auto;
+  padding: 5px 16px;
+  background: var(--accent-faint);
+  border: 1px solid var(--accent-quiet);
+  border-radius: var(--r-sm);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+.config-run:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+.config-run:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-faint);
+}
+
+/* Transform output states */
+.card-value.is-hint {
+  color: var(--text-subtle);
+  letter-spacing: 0;
+}
+.card-value.is-error {
+  color: oklch(72% 0.16 25);
+  border-color: oklch(62% 0.16 25 / 0.5);
+}
+.card.busy {
+  cursor: progress;
+}
+.card.busy .card-value {
+  opacity: 0.65;
+}
+
 /* ---------- Footer ---------- */
 .app-footer {
   display: flex;

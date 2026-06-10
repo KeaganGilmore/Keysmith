@@ -454,6 +454,97 @@
           </div>
         </section>
 
+        <!-- ============ Hash & encrypt ============ -->
+        <section class="section">
+          <h2 class="section-head">Hash &amp; encrypt</h2>
+          <div class="card-grid">
+            <article class="card card--config card--wide" data-card="hash" data-mode="transform"
+                     data-requires="text"
+                     data-placeholder="↓ enter text, pick an algorithm, then Hash (or press Enter)"
+                     tabindex="0" role="button" aria-label="Hash your own text">
+              <div class="card-head">
+                <div class="card-titles">
+                  <h3 class="card-title">Hash text</h3>
+                  <p class="card-meta">One-way · Django <code>make_password()</code> (pbkdf2 · argon2 · bcrypt) + plain digests</p>
+                </div>
+                <span class="card-action" aria-hidden="true">
+                  <svg class="icon icon-copy" viewBox="0 0 24 24" width="16" height="16"><use href="#i-copy"/></svg>
+                  <svg class="icon icon-check" viewBox="0 0 24 24" width="16" height="16"><use href="#i-check"/></svg>
+                </span>
+              </div>
+              <output class="card-value" aria-live="polite"></output>
+              <div class="card-config">
+                <div class="config-row config-row--stack">
+                  <span class="config-label">Text</span>
+                  <textarea class="config-area" data-control="text" rows="2"
+                            placeholder="text to hash (e.g. a password)…"
+                            spellcheck="false" autocomplete="off"></textarea>
+                </div>
+                <div class="config-row">
+                  <span class="config-label">Algorithm</span>
+                  <select class="config-select" data-control="algorithm" aria-label="Hash algorithm">
+                    <option value="pbkdf2_sha256">Django · pbkdf2_sha256 (default)</option>
+                    <option value="argon2">Django · argon2</option>
+                    <option value="bcrypt_sha256">Django · bcrypt_sha256</option>
+                    <option value="bcrypt">bcrypt</option>
+                    <option value="sha256">SHA-256</option>
+                    <option value="sha384">SHA-384</option>
+                    <option value="sha512">SHA-512</option>
+                    <option value="sha1">SHA-1</option>
+                    <option value="md5">MD5</option>
+                  </select>
+                  <button type="button" class="config-run" data-action="run">Hash</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="card card--config card--wide" data-card="cipher" data-mode="transform"
+                     data-requires="key,text"
+                     data-placeholder="↓ enter a key + text, choose a mode, then Run"
+                     tabindex="0" role="button" aria-label="Encrypt or decrypt your own text">
+              <div class="card-head">
+                <div class="card-titles">
+                  <h3 class="card-title">Encrypt / decrypt</h3>
+                  <p class="card-meta">Reversible · AES-256-GCM (passphrase) or Fernet token (Python <code>cryptography</code> compatible)</p>
+                </div>
+                <span class="card-action" aria-hidden="true">
+                  <svg class="icon icon-copy" viewBox="0 0 24 24" width="16" height="16"><use href="#i-copy"/></svg>
+                  <svg class="icon icon-check" viewBox="0 0 24 24" width="16" height="16"><use href="#i-check"/></svg>
+                </span>
+              </div>
+              <output class="card-value" aria-live="polite"></output>
+              <div class="card-config">
+                <div class="config-row">
+                  <span class="config-label">Format</span>
+                  <div class="config-segments" data-control="format" data-type="segmented" role="radiogroup" aria-label="Format">
+                    <button type="button" class="config-segment" data-value="aes-gcm" aria-pressed="true">AES-GCM</button>
+                    <button type="button" class="config-segment" data-value="fernet" aria-pressed="false">Fernet</button>
+                  </div>
+                  <div class="config-segments" data-control="mode" data-type="segmented" role="radiogroup" aria-label="Mode">
+                    <button type="button" class="config-segment" data-value="encrypt" aria-pressed="true">Encrypt</button>
+                    <button type="button" class="config-segment" data-value="decrypt" aria-pressed="false">Decrypt</button>
+                  </div>
+                </div>
+                <div class="config-row">
+                  <span class="config-label">Key</span>
+                  <input type="text" class="config-text" data-control="key"
+                         placeholder="passphrase (AES-GCM) or 32-byte Fernet key"
+                         spellcheck="false" autocomplete="off" />
+                </div>
+                <div class="config-row config-row--stack">
+                  <span class="config-label">Text</span>
+                  <textarea class="config-area" data-control="text" rows="2"
+                            placeholder="plaintext to encrypt, or token to decrypt…"
+                            spellcheck="false" autocomplete="off"></textarea>
+                </div>
+                <div class="config-row config-actions">
+                  <button type="button" class="config-run" data-action="run">Run</button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
         <!-- ============ Custom ============ -->
         <section class="section">
           <h2 class="section-head">Custom</h2>

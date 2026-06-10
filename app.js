@@ -1,4 +1,5 @@
 import * as G from './generators.js';
+import * as C from './crypto.js';
 
 const generators = {
   'django-secret': G.djangoSecretKey,
@@ -19,6 +20,9 @@ const generators = {
   password: G.password,
   pin: G.pin,
   custom: G.customRandom,
+  // Input-driven transforms (data-mode="transform"): hash / encrypt your own text.
+  hash: C.hashText,
+  cipher: C.cipherText,
 };
 
 class KeyCard {
@@ -28,6 +32,16 @@ class KeyCard {
     this.valueEl = el.querySelector('.card-value');
     this.gen = generators[this.kind];
     this.options = {};
+    this.value = '';
+    // Transform cards take user input and run async crypto on an explicit action
+    // (Run button / Enter / clicking the card) rather than on every keystroke.
+    this.isTransform = el.dataset.mode === 'transform';
+    this.requires = (el.dataset.requires || '')
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean);
+    this.placeholder = el.dataset.placeholder || '—';
+    this.runToken = 0;
     if (!this.gen) return;
 
     this.bindControls();
@@ -57,13 +71,16 @@ class KeyCard {
           e.preventDefault();
           for (const b of buttons) b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
           this.options[name] = coerce(btn.dataset.value);
-          this.regenerate();
+          // Transform cards wait for an explicit Run; others update live.
+          if (!this.isTransform) this.regenerate();
         });
       }
     }
 
-    // Native inputs with data-control
-    const inputs = this.el.querySelectorAll('input[data-control], textarea[data-control]');
+    // Native inputs with data-control (input / textarea / select)
+    const inputs = this.el.querySelectorAll(
+      'input[data-control], textarea[data-control], select[data-control]',
+    );
     for (const ctrl of inputs) {
       const name = ctrl.dataset.control;
       const display = ctrl.parentElement?.querySelector('.config-value');
@@ -77,13 +94,36 @@ class KeyCard {
         }
       };
       update();
-      const evt = ctrl.type === 'checkbox' ? 'change' : 'input';
-      ctrl.addEventListener(evt, () => {
-        update();
-        this.regenerate();
+
+      if (this.isTransform) {
+        // Keep options current, but don't recompute on every keystroke.
+        const evt = ctrl.tagName === 'SELECT' || ctrl.type === 'checkbox' ? 'change' : 'input';
+        ctrl.addEventListener(evt, update);
+      } else {
+        const evt = ctrl.type === 'checkbox' ? 'change' : 'input';
+        ctrl.addEventListener(evt, () => {
+          update();
+          this.regenerate();
+        });
+      }
+
+      ctrl.addEventListener('keydown', (e) => {
+        e.stopPropagation(); // don't let space/enter bubble to the card
+        // Enter in a single-line field runs the transform (textarea keeps newlines).
+        if (this.isTransform && e.key === 'Enter' && ctrl.tagName !== 'TEXTAREA') {
+          e.preventDefault();
+          this.regenerateAndCopy();
+        }
       });
-      // prevent space/enter on inputs from triggering card regen
-      ctrl.addEventListener('keydown', (e) => e.stopPropagation());
+    }
+
+    // Explicit run/copy buttons (Hash / Run) on transform cards.
+    for (const btn of this.el.querySelectorAll('[data-action="run"]')) {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.regenerateAndCopy();
+      });
+      btn.addEventListener('keydown', (e) => e.stopPropagation());
     }
   }
 
@@ -105,14 +145,49 @@ class KeyCard {
   };
 
   // ---------- Behavior ----------
-  regenerate({ animate = true } = {}) {
-    try {
-      this.value = this.gen(this.options);
-    } catch (err) {
-      console.warn(`[${this.kind}] generation failed`, err);
+  hasRequiredInput() {
+    return this.requires.every((k) => {
+      const v = this.options[k];
+      return typeof v === 'string' ? v.trim().length > 0 : v != null;
+    });
+  }
+
+  setOutput(text, stateClass) {
+    this.valueEl.textContent = text;
+    this.valueEl.classList.remove('is-hint', 'is-error');
+    if (stateClass) this.valueEl.classList.add(stateClass);
+  }
+
+  async regenerate({ animate = true } = {}) {
+    // Transform cards with missing input just show their prompt.
+    if (this.isTransform && !this.hasRequiredInput()) {
+      this.el.classList.remove('busy');
+      this.value = '';
+      this.setOutput(this.placeholder, 'is-hint');
       return;
     }
-    this.valueEl.textContent = this.value;
+
+    const token = ++this.runToken;
+    if (this.isTransform) {
+      this.el.classList.add('busy');
+      this.setOutput('Computing…', 'is-hint');
+    }
+
+    let result;
+    try {
+      result = await this.gen(this.options);
+    } catch (err) {
+      if (token !== this.runToken) return; // a newer run superseded this one
+      this.el.classList.remove('busy');
+      this.value = '';
+      this.setOutput('⚠ ' + (err?.message || 'Something went wrong'), 'is-error');
+      return;
+    }
+    if (token !== this.runToken) return;
+
+    this.el.classList.remove('busy');
+    this.value = result;
+    this.setOutput(result, null);
     if (animate) {
       this.valueEl.classList.remove('flash');
       // force reflow so the animation can re-trigger on rapid presses
@@ -121,12 +196,13 @@ class KeyCard {
     }
   }
 
-  regenerateAndCopy() {
-    this.regenerate();
-    this.copy();
+  async regenerateAndCopy() {
+    await this.regenerate();
+    if (this.value) await this.copy();
   }
 
   async copy() {
+    if (!this.value) return;
     try {
       await navigator.clipboard.writeText(this.value);
       this.flashCopied();
